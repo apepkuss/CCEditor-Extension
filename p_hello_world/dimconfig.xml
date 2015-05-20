@@ -1,0 +1,10 @@
+<CCEditor>
+	<Dims>
+		<Dim name="A" state="left" bgcolor="yellow" />
+		<Dim name="B" state="left" bgcolor="green" />
+		<Dim name="C" state="left" bgcolor="yellow" />
+		<Dim name="E" state="left" bgcolor="yellow" />
+		<Dim name="F" state="unselect" bgcolor="yellow" />
+		<Dim name="G" state="unselect" bgcolor="yellow" />
+	</Dims>
+</CCEditor>
