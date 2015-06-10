@@ -21,6 +21,7 @@ import java.util.Vector;
 
 class TePanel{
     private JPanel ap;
+    private JPanel panel_in;
     private Border ab;
     private JPanel apx;
     private JLabel labx;
@@ -69,10 +70,12 @@ class TePanel{
         tagcount=new JLabel(Integer.toString(count));
         ap=createPanel(name,0,0);
         ap.setLayout(new BoxLayout(ap, BoxLayout.PAGE_AXIS));
+        ap.setAlignmentY(Component.LEFT_ALIGNMENT);
         ap.setOpaque(true);
       //  ap.setBackground(Color.lightGray);
         // ab=new TitledBorder("Dim");
-
+        panel_in=new JPanel();
+        panel_in.setLayout(new BoxLayout(panel_in,BoxLayout.X_AXIS));
         labx=new JLabel();
 
         labx.setText("                                   x");
@@ -111,9 +114,11 @@ class TePanel{
         ap.add(left);
         ap.add(right);
         //ap.add(jcc);
+        //panel_in.add(choseC);
+       // panel_in.add(named);
         ap.add(choseC);
         ap.add(named);
-
+        //ap.add(panel_in);
         //ap.add(cb);
         // ap.add(delete);
         //ap.setBorder(ab);
@@ -163,43 +168,10 @@ public class CCEditor {
 
     }
 
-    public static void readXml(){
-        ParseXml parsex=new ParseXml();
-       // String xmlPath="F:\\1_study\\CCEditor_2\\src\\Dim.xml";
-        parsex.readToXML(xmlPath);
-
-    }
 
 
 
-    public static void removeTransparencySlider(JColorChooser jc) throws Exception {
 
-        AbstractColorChooserPanel[] colorPanels = jc.getChooserPanels();
-        for (int i = 1; i < colorPanels.length; i++) {
-            AbstractColorChooserPanel cp = colorPanels[i];
-
-            Field f = cp.getClass().getDeclaredField("panel");
-            f.setAccessible(true);
-
-            Object colorPanel = f.get(cp);
-            Field f2 = colorPanel.getClass().getDeclaredField("spinners");
-            f2.setAccessible(true);
-            Object spinners = f2.get(colorPanel);
-
-            Object transpSlispinner = Array.get(spinners, 3);
-            if (i == colorPanels.length - 1) {
-                transpSlispinner = Array.get(spinners, 4);
-            }
-            Field f3 = transpSlispinner.getClass().getDeclaredField("slider");
-            f3.setAccessible(true);
-            JSlider slider = (JSlider) f3.get(transpSlispinner);
-            slider.setEnabled(false);
-            Field f4 = transpSlispinner.getClass().getDeclaredField("spinner");
-            f4.setAccessible(true);
-            JSpinner spinner = (JSpinner) f4.get(transpSlispinner);
-            spinner.setEnabled(false);
-        }
-    }
 
 
     public static void runEditor(){
@@ -435,6 +407,8 @@ public class CCEditor {
                // String xmlPath="F:\\1_study\\CCEditor_2\\src\\Dim.xml";
 
                 panelv=parsex.readToXML(xmlPath);
+                panelt.removeAll();
+                count=Integer.parseInt(panelv.get(panelv.size()-1).getTagcount().getText())+1;
                 //add actionLinsen
                 for(int i=0;i<panelv.size();i++){
                     panelv.get(i).getUnselect().addActionListener(actionListener2);

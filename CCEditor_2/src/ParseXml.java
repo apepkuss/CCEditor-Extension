@@ -1,7 +1,4 @@
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -122,15 +119,20 @@ public class ParseXml {
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
                     Element eElement = (Element) nNode;
-
+                    /*
                     System.out.println("id : " + eElement.getElementsByTagName("id").item(0).getTextContent());
                     System.out.println("Select : " + eElement.getElementsByTagName("select").item(0).getTextContent());
                     System.out.println("Name : " + eElement.getElementsByTagName("name").item(0).getTextContent());
                     System.out.println("Color : " + eElement.getElementsByTagName("color").item(0).getTextContent());
+                    */
+                    System.out.println("id : " + eElement.getAttribute("id"));
+                    System.out.println("Select : " + eElement.getAttribute("select"));
+                    System.out.println("Name : " + eElement.getAttribute("name"));
+                    System.out.println("Color : " + eElement.getAttribute("color"));
 
                     //create  Vector<TePanel> and return;
-                   TePanel panel_x=new TePanel( eElement.getElementsByTagName("name").item(0).getTextContent(),Integer.parseInt(eElement.getElementsByTagName("id").item(0).getTextContent()));
-                    switch(eElement.getElementsByTagName("select").item(0).getTextContent()){
+                   TePanel panel_x=new TePanel( eElement.getAttribute("name"),Integer.parseInt(eElement.getAttribute("id")));
+                    switch(eElement.getAttribute("select")){
                         case "Unselected":
                             panel_x.getUnselect().setSelected(true);
                             break;
@@ -142,7 +144,7 @@ public class ParseXml {
                             break;
 
                     }
-                    Color color=Color.decode(eElement.getElementsByTagName("color").item(0).getTextContent());
+                    Color color=Color.decode(eElement.getAttribute("color"));
                     panel_x.getAp().setBackground(color);
                     panel_x.getUnselect().setBackground(color);
                     panel_x.getRight().setBackground(color);
@@ -225,19 +227,38 @@ public void alterToXml(String xml, XmlNode n){
             Element newServer = document.createElement("Dim");
             root.appendChild(newServer);
 
+            Attr attr_id = document.createAttribute("id");
+            attr_id.setValue(node.id);
+            newServer.setAttributeNode(attr_id);
+
+
+            Attr attr_name = document.createAttribute("name");
+            attr_name.setValue(node.name);
+            newServer.setAttributeNode(attr_name);
+
+            Attr attr_select = document.createAttribute("select");
+            attr_select.setValue(node.select);
+            newServer.setAttributeNode(attr_select);
+
+            Attr attr_color = document.createAttribute("color");
+            attr_color.setValue(node.color);
+            newServer.setAttributeNode(attr_color);
+
+
+            /*
             Element name = document.createElement("select");
             name.appendChild(document.createTextNode(node.select));
             Element name2=document.createElement("name");
             name2.appendChild(document.createTextNode(node.name));
-            Element name3=document.createElement("id");
-            name3.appendChild(document.createTextNode(node.id));
+            //Element name3=document.createElement("id");
+            //name3.appendChild(document.createTextNode(node.id));
             Element name4=document.createElement("color");
             name4.appendChild(document.createTextNode(node.color));
-            newServer.appendChild(name3);
+            //newServer.appendChild(name3);
             newServer.appendChild(name2);
             newServer.appendChild(name);
             newServer.appendChild(name4);
-
+            */
 
 
 
