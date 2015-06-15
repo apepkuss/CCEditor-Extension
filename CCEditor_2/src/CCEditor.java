@@ -1,18 +1,12 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
-import javax.swing.colorchooser.ColorSelectionModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.Vector;
 
 /**
@@ -22,20 +16,14 @@ import java.util.Vector;
 class TePanel{
     private JPanel ap;
     private JPanel panel_in;
-    private Border ab;
-    private JPanel apx;
     private JLabel labx;
     private JLabel label;
     private JButton named;
-    // private JPanel lable_p;
+
     private JRadioButton unselect;
     private JRadioButton left;
     private JRadioButton right;
-    private JButton delete;
-    private JColorChooser jcc;
     private JButton choseC;
-    //private  JButton add;
-    private JComboBox cb;
     private ButtonGroup group;
     private JLabel tagcount;
 
@@ -58,7 +46,6 @@ class TePanel{
             dimemsion = new Dimension(width + 30, height + 45);
         }
 
-       // panel.setPreferredSize(dimemsion);
 
         return panel;
     }
@@ -72,32 +59,22 @@ class TePanel{
         ap.setLayout(new BoxLayout(ap, BoxLayout.PAGE_AXIS));
         ap.setAlignmentY(Component.LEFT_ALIGNMENT);
         ap.setOpaque(true);
-      //  ap.setBackground(Color.lightGray);
-        // ab=new TitledBorder("Dim");
         panel_in=new JPanel();
         panel_in.setLayout(new BoxLayout(panel_in,BoxLayout.X_AXIS));
         labx=new JLabel();
 
         labx.setText("                                   x");
-        //Color[] colorlist={Color.RED,Color.green,Color.blue};
-        //cb = new ComboBox(colorlist);
-        //cb.setMaximumSize(cb.getPreferredSize());
-        //cb.setSelectedIndex(0);
         label=new JLabel(name);
         label.setOpaque(true);
         named=new JButton("rename Dim");
-        //lable_p=new JPanel();
         unselect=new JRadioButton("Unselected", true);
         unselect.setActionCommand("Unselected");
-        //unselect.setBackground(Color.lightGray);
         left=new JRadioButton("Left");
         left.setActionCommand("Left");
-        //left.setBackground(Color.lightGray);
         right=new JRadioButton("Right");
         right.setActionCommand("Right");
-        //right.setBackground(Color.lightGray);
-        delete=new JButton("Delete");
-        jcc=new JColorChooser();
+
+
         choseC=new JButton("color");
         //inis button
         group=new ButtonGroup();
@@ -105,23 +82,11 @@ class TePanel{
         group.add(left);
         group.add(right);
         ap.add(labx);
-        // ap.add(label);
-
-        // lable_p.add(label);
-        //  lable_p.add(named);
-        //ap.add(lable_p);
         ap.add(unselect);
         ap.add(left);
         ap.add(right);
-        //ap.add(jcc);
-        //panel_in.add(choseC);
-       // panel_in.add(named);
         ap.add(choseC);
         ap.add(named);
-        //ap.add(panel_in);
-        //ap.add(cb);
-        // ap.add(delete);
-        //ap.setBorder(ab);
 
 
     }
@@ -131,11 +96,9 @@ class TePanel{
     public JRadioButton getUnselect(){return unselect;}
     public JRadioButton getLeft(){return left;}
     public JRadioButton getRight(){return right;}
-    public JButton getDelete(){return delete;}
     public JButton getNamed(){return named;}
     public JLabel getTagcount(){return tagcount;}
     public JLabel getLabx(){return labx;}
-    public JComboBox getCb(){return cb;}
     public JButton getChoseC(){return choseC;}
 }
 
@@ -146,9 +109,6 @@ public class CCEditor {
 
     public static void updateXml(){
         ParseXml parsex=new ParseXml();
-       // String xmlPath="F:\\1_study\\CCEditor_2\\src\\Dim.xml";
-
-        //String xmlPath="src\\Dim.xml";
 
         parsex.saveToXML(xmlPath);
         for(int i=0;i<panelv.size();i++) {
@@ -175,11 +135,11 @@ public class CCEditor {
 
 
     public static void runEditor(){
-        JFrame frame = new JFrame("FrameDemo");
+        JFrame frame = new JFrame("CCEditorDemo");
         frame.setSize(new Dimension(50,1000));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
+        //have 3 Jpanel rootp is the root panel of the UI, panelt is the container for each TePanel, panelb is container for "Add" and "Read" button
         JPanel rootp=new JPanel();
 
 
@@ -196,28 +156,11 @@ public class CCEditor {
 
 
 
-        MouseAdapter mouseAdapter2=new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //super.mouseEntered(e);
-                for (int i=0;i<panelv.size();i++){
-                    if(e.getSource()==panelv.get(i).getAp()){
-                       panelv.get(i).getNamed().setVisible(true);
-                    }
-                }
-            }
-           public void mouseExited(MouseEvent e){
-               for (int i=0;i<panelv.size();i++){
-                   if(e.getSource()==panelv.get(i).getAp()){
-                       panelv.get(i).getNamed().setVisible(false);
-                   }
-               }
-
-           }
-        };
 
 
+        // There are 1 mouseAdapter and 6 action listener, actionListener 1-7 but don't have3, 5.
 
+        //mouseAdapter is for remove one dim, it add by the "x" label
         MouseAdapter mouseAdapter1=new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -238,7 +181,7 @@ public class CCEditor {
 
 
 
-
+        //actionListener6 is for color choice, add by the "color" button
         ActionListener actionListener6=new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -277,17 +220,7 @@ public class CCEditor {
         };
 
 
-        ActionListener actionListener5=new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (int i=0;i<panelv.size();i++){
-                    if(e.getSource()==panelv.get(i).getCb()){
-                        panelv.get(i).getAp().setBackground((Color) panelv.get(i).getCb().getSelectedItem());
-                    }
-                }
-            }
-        };
-
+        //actionListener4 is for rename the dim, add by "rename" button
         ActionListener actionListener4=new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -304,59 +237,25 @@ public class CCEditor {
 
             }
         };
-
-        ActionListener actionListener3=new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (int i=0;i<panelv.size();i++){
-                    if(e.getSource()==panelv.get(i).getDelete()){
-                        panelt.remove(panelv.get(i).getAp());
-                        panelv.remove(i);
-                        updateXml();
-                        panelt.updateUI();
-                    }
-                }
-            }
-        };
-
-        JButton xmlbutton=new JButton("Editor");
+        //actionListener2 add by each radio button, each choice will update the xml file
         ActionListener actionListener2 = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                /*
-                ParseXml parsex=new ParseXml();
-                String xmlPath="F:\\1_study\\CCEditor_2\\src\\Dim.xml";
-                parsex.saveToXML(xmlPath);
-                for(int i=0;i<panelv.size();i++){
-                    XmlNode x=new XmlNode();
-                    TePanel t=panelv.get(i);
-                    x.select=t.getGroup().getSelection().getActionCommand();
-
-                    x.name=t.getLabel().getText();
-                    x.id=t.getTagcount().getText();
-                    parsex.alterToXml(xmlPath,x);
-                }
-*/
                 updateXml();
             }
         };
 
-        JButton addbutton=new JButton("Add");
+        //actionLinstener1 is listener for "Add" button,
         ActionListener actionListener1 = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 String name="Dim"+panelv.size();
                 TePanel t=new TePanel(name,count);
                 count++;
-                // System.out.print(panelv.size());
                 panelv.add(t);
-               // panelv.get(panelv.size()-1).getAp().addMouseListener(mouseAdapter2);
                 panelv.get(panelv.size() - 1).getUnselect().addActionListener(actionListener2);
                 panelv.get(panelv.size() - 1).getLeft().addActionListener(actionListener2);
                 panelv.get(panelv.size()-1).getRight().addActionListener(actionListener2);
-                panelv.get(panelv.size()-1).getDelete().addActionListener(actionListener3);
                 panelv.get(panelv.size()-1).getNamed().addActionListener(actionListener4);
-              // panelv.get(panelv.size()-1).getNamed().setVisible(false);
                 panelv.get(panelv.size() - 1).getLabx().addMouseListener(mouseAdapter1);
-                //panelv.get(panelv.size()-1).getCb().addActionListener(actionListener5);
                 panelv.get(panelv.size()-1).getChoseC().addActionListener(actionListener6);
                 panelt.add(panelv.get(panelv.size()-1).getAp());
 
@@ -369,7 +268,7 @@ public class CCEditor {
                     int G = (int)(Math.random( )*256);
                     int B= (int)(Math.random( )*256);
                     randomc=new Color(R,G,B);
-                    for (int i2 = 0; i2 < panelv.size(); i2++) {
+                    for (int i2 = 0; i2 < panelv.size(); i2++) {//check the random color is replace or not, if yes random again
 
                         if (randomc.equals(panelv.get(i2).getAp().getBackground())) {
                             state=true;
@@ -390,7 +289,7 @@ public class CCEditor {
             }
         };
 
-
+        //actionListener7 is add by "read" button, do the  similar thing for actionListener1
         ActionListener actionListener7=new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -404,7 +303,6 @@ public class CCEditor {
                 }else{
                     System.out.println("no select");
                 }
-               // String xmlPath="F:\\1_study\\CCEditor_2\\src\\Dim.xml";
 
                 panelv=parsex.readToXML(xmlPath);
                 panelt.removeAll();
@@ -414,11 +312,9 @@ public class CCEditor {
                     panelv.get(i).getUnselect().addActionListener(actionListener2);
                     panelv.get(i).getLeft().addActionListener(actionListener2);
                     panelv.get(i).getRight().addActionListener(actionListener2);
-                    panelv.get(i).getDelete().addActionListener(actionListener3);
                     panelv.get(i).getNamed().addActionListener(actionListener4);
-                    // panelv.get(panelv.size()-1).getNamed().setVisible(false);
                     panelv.get(i).getLabx().addMouseListener(mouseAdapter1);
-                    //panelv.get(panelv.size()-1).getCb().addActionListener(actionListener5);
+
                     panelv.get(i).getChoseC().addActionListener(actionListener6);
                     panelt.add(panelv.get(i).getAp());
                 }
@@ -429,24 +325,19 @@ public class CCEditor {
 
 
 
-
+        JButton addbutton=new JButton("Add");
         addbutton.addActionListener(actionListener1);
 
 
-       // xmlbutton.addActionListener(actionListenerEditor);
         JButton read=new JButton("Read");
       read.addActionListener(actionListener7);
         panelb.add(addbutton);
         panelb.add(read);
-       // panelb.add(xmlbutton);
-      //  panelt.add(addbutton);
         rootp.add(panelb);
         rootp.add(scrPane);
-        //rootp.add(panelb);
 
         frame.getContentPane().add(rootp);
 
-       // frame.pack();
         frame.setVisible(true);
 
     }

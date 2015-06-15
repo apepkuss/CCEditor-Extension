@@ -40,6 +40,7 @@ public class ParseXml {
         System.out.println("ParseXml is construct!");
     }
 
+    //not use in this project keep it just in case
     public static Color hex2Rgb(String colorStr) {
         return new Color(
                 Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
@@ -48,45 +49,7 @@ public class ParseXml {
     }
 
 
-   /*
-    public boolean readXML(String xml) {
-        rolev = new ArrayList<String>();
-        Document dom;
-        // Make an  instance of the DocumentBuilderFactory
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        try {
-            // use the factory to take an instance of the document builder
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            // parse using the builder to get the DOM mapping of the
-            // XML file
-            dom = db.parse(xml);
 
-            Element doc = dom.getDocumentElement();
-
-            role1 = getTextValue(role1, doc, "DimA");
-            if (role1 != null) {
-                if (!role1.isEmpty())
-                    rolev.add(role1);
-            }
-            role2 = getTextValue(role2, doc, "DimB");
-            if (role2 != null) {
-                if (!role2.isEmpty())
-                    rolev.add(role2);
-            }
-
-            return true;
-
-        } catch (ParserConfigurationException pce) {
-            System.out.println(pce.getMessage());
-        } catch (SAXException se) {
-            System.out.println(se.getMessage());
-        } catch (IOException ioe) {
-            System.err.println(ioe.getMessage());
-        }
-
-        return false;
-    }
-*/
 
     public Vector<TePanel> readToXML(String xml){
         Vector<TePanel> panelx=new Vector();
@@ -104,31 +67,19 @@ public class ParseXml {
             //create a vector fill all data in it and return
 
 
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
             NodeList nList = doc.getElementsByTagName("Dim");
 
-            System.out.println("----------------------------");
 
             for (int temp = 0; temp < nList.getLength(); temp++) {
 
                 Node nNode = nList.item(temp);
 
-                System.out.println("\nCurrent Element :" + nNode.getNodeName());
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
                     Element eElement = (Element) nNode;
-                    /*
-                    System.out.println("id : " + eElement.getElementsByTagName("id").item(0).getTextContent());
-                    System.out.println("Select : " + eElement.getElementsByTagName("select").item(0).getTextContent());
-                    System.out.println("Name : " + eElement.getElementsByTagName("name").item(0).getTextContent());
-                    System.out.println("Color : " + eElement.getElementsByTagName("color").item(0).getTextContent());
-                    */
-                    System.out.println("id : " + eElement.getAttribute("id"));
-                    System.out.println("Select : " + eElement.getAttribute("select"));
-                    System.out.println("Name : " + eElement.getAttribute("name"));
-                    System.out.println("Color : " + eElement.getAttribute("color"));
+
 
                     //create  Vector<TePanel> and return;
                    TePanel panel_x=new TePanel( eElement.getAttribute("name"),Integer.parseInt(eElement.getAttribute("id")));
@@ -177,17 +128,6 @@ public class ParseXml {
 
             // create the root element
             Element rootEle = dom.createElement("Dims");
-            /*
-            // create data elements and place them under root
-            e = dom.createElement("DimA");
-            e.appendChild(dom.createTextNode(role1));
-            rootEle.appendChild(e);
-
-            e = dom.createElement("DimB");
-            e.appendChild(dom.createTextNode(role2));
-            rootEle.appendChild(e);
-
-            */
             dom.appendChild(rootEle);
 
             try {
@@ -195,8 +135,6 @@ public class ParseXml {
                 tr.setOutputProperty(OutputKeys.INDENT, "yes");
                 tr.setOutputProperty(OutputKeys.METHOD, "xml");
                 tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                //tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "dim.dtd");
-                //tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
                 // send DOM to file
                 tr.transform(new DOMSource(dom),
@@ -245,20 +183,6 @@ public void alterToXml(String xml, XmlNode n){
             newServer.setAttributeNode(attr_color);
 
 
-            /*
-            Element name = document.createElement("select");
-            name.appendChild(document.createTextNode(node.select));
-            Element name2=document.createElement("name");
-            name2.appendChild(document.createTextNode(node.name));
-            //Element name3=document.createElement("id");
-            //name3.appendChild(document.createTextNode(node.id));
-            Element name4=document.createElement("color");
-            name4.appendChild(document.createTextNode(node.color));
-            //newServer.appendChild(name3);
-            newServer.appendChild(name2);
-            newServer.appendChild(name);
-            newServer.appendChild(name4);
-            */
 
 
 
@@ -285,7 +209,7 @@ public void alterToXml(String xml, XmlNode n){
 }
 
 
-
+// not use in this project keep it just in case
     private String getTextValue(String def, Element doc, String tag) {
         String value = def;
         NodeList nl;
